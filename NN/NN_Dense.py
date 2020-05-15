@@ -19,11 +19,11 @@ class NN_Dense():
                        number of neurons in each layer(including input layer, so number of features).
                        Minimum length of the list must be >= 2(1 for input and 1 for output).
         weights_init -- list containing 2d arrays or init function. Optional argument(default init with zero like).
-        bias_init -- list containing biases or init function for each hidden layer(default init with zero like).
+        bias_init -- ndarray containing biases or init function for each hidden layer(default init with zero like).
         """
         assert len(num_neurons) >= 2 and all([type(neuron) == int for neuron in num_neurons]), 'Neural network must have at least 2 layers!'
         assert (callable(weights_init) or type(weights_init) == np.ndarray) and (callable(bias_init) or type(bias_init) == np.ndarray), 'weights_init and bias_init must be init functions or ndarrays!'
-        weights, bias = [], []
+        weights = []
         
         if callable(weights_init):
             for m, n in zip(num_neurons[1:], num_neurons[:-1]):
@@ -32,8 +32,9 @@ class NN_Dense():
             weights = weights_init
 
         if callable(bias_init):
-            bias.append(bias_init((len(weights), 1)))
+            bias = bias_init((len(weights), 1))
         else:
+            assert bias_init.shape == (len(weights), 1), 'bias ndarray\'s dimensions dont\'t match with weights!'
             bias = bias_init
 
         self.weights, self.bias = weights, bias
@@ -46,8 +47,11 @@ class NN_Dense():
                   Second dimension is number of features.
         activation -- apply activation function to each layer.
         """
-        output = inputs
+        outputs = inputs
         for weight, bias in zip(self.weights, self.bias):
-            output = activation(np.dot(weight, output) + bias)
+            outputs = activation(np.dot(weight, outputs) + bias)
 
-        return output
+        return outputs
+
+    def backward(self):
+        pass
