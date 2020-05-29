@@ -12,3 +12,7 @@ def sigmoid(x):
 
 def relu(x):
     return max(0, x)
+
+# Derivatives of activation functions
+def deriv_sigmoid(sigmoid):
+    return sigmoid * (1.0 - sigmoid)

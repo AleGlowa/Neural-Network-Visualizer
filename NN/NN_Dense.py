@@ -8,6 +8,8 @@ from typing import Callable
 import numpy as np
 
 from value_settings import T_PRECISION
+from activations import sigmoid, deriv_sigmoid
+from utils import derivative
 import init
 
 
@@ -45,13 +47,43 @@ class NN_Dense():
 
         inputs -- input data as a 2d numpy array. First dimension is number of examples.
                   Second dimension is number of features.
-        activation -- apply activation function to each layer.
+        activation -- apply activation function to each hidden layer.
         """
+        self.activation = activation
         outputs = inputs
-        for weight, bias in zip(self.weights, self.bias):
-            outputs = activation(np.dot(weight, outputs) + bias)
+        # save required values for computing gradients of weights in backward() method
+        self._data_for_Wgrads = [inputs]
+        for idx, (weight, bias) in enumerate(zip(self.weights, self.bias), 1):
+            net_input = np.dot(weight, outputs) + bias
+            outputs = activation(net_input)
+            if idx != len(self.weights):
+                self._data_for_Wgrads.append(outputs)
 
         return outputs
 
-    def backward(self):
-        pass
+    def zero_grad(self):
+        """Initialize weight's grads and bias's grads with zeros"""
+        self.Wgrads, self.bgrads = [], []
+        for weight, bias in zip(self.weights, self.bias):
+            self.Wgrads.append(np.zeros_like(weight))
+            self.bgrads.append(np.zeros_like(bias))
+
+    def backward(self, loss):
+        errors = [loss]
+        for weight, output in zip(self.weights[-1:0:-1], self._data_for_Wgrads[-1:0:-1]):
+            # CHANGE LATER deriv_sigmoid BECAUSE IS ONLY FOR SIGMOID ACTIVATION FUNC
+            error = np.dot(np.transpose(weight), errors[-1]) * deriv_sigmoid(output)
+            errors.append(error)
+
+        # Initialize weight's grads and bias's grads with zeros
+        self.zero_grad()
+
+        batch_size = self._data_for_Wgrads[0].shape[1]
+        for idx, (error, output, bias) in enumerate(zip(errors, self._data_for_Wgrads[-1::-1], self.bias[-1::-1]), 1):
+            for ex_output, ex_error in zip(output.T, error.T):
+                self.Wgrads[-idx] += np.outer(ex_error, ex_output)
+            self.bgrads[-idx] = (self.bgrads[-idx] + error * bias) / batch_size
+            self.Wgrads[-idx] /= batch_size
+
+    def step(self, optim_func):
+        self.weights, self.bias = optim_func((self.weights, self.bias), (self.Wgrads, self.bgrads))
