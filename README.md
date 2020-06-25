@@ -59,7 +59,7 @@ dense_nn.step(gradient_descent(lr=0.02))
 - Numpy 1.18.1
 
 ## **Setup**
-To install all dependencies, run the command `bash pip install -r requirements.txt`
+To install all dependencies, run the command `pip install -r requirements.txt`
 
 ## **Features**
 Ready features:
