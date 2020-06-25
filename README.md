@@ -77,5 +77,5 @@ Project is: in progress
 Forward propagation and backpropagation based on [this video](https://www.youtube.com/watch?v=x_Eamf8MHwU)
 
 ## **Contact**
-My email: alglowa1@gmail.com__
+My email: alglowa1@gmail.com  
 Linkedin: [Alex Głowacki](https://www.linkedin.com/in/alex-g%C5%82owacki-72941113a/)
