@@ -8,7 +8,7 @@ import init
 import numpy as np
 from math import ceil
 
-NUM_EPOCHS = 5
+NUM_EPOCHS = 10
 BATCH_SIZE = 2
 
 inputs = np.array([[1, 2], [2, 3], [3, 4], [4, 5]], dtype=T_PRECISION)  # 2 examples
@@ -19,7 +19,7 @@ targets = np.array([[1, 0]])  # 2 targets
 num_batches = ceil(num_examples / BATCH_SIZE)
 
 # 3 hidden layers
-dense_nn = NN_Dense([inputs.shape[0], 3, 2, 1], init.with_value(2), init.with_value(1))
+dense_nn = NN_Dense([inputs.shape[0], 3, 2, 1], init.with_value(0.01), init.with_value(1))
 
 # Check predictions before training
 output = dense_nn.forward(inputs, sigmoid)
@@ -32,7 +32,7 @@ for id_epoch in range(NUM_EPOCHS):
         loss = cross_entropy(output, targets[:, id_batch * BATCH_SIZE : upper_bound])
         # calculate gradients needed for optimization algorithm
         dense_nn.backward(loss)
-        dense_nn.step(gradient_descent(lr=0.01))
+        dense_nn.step(gradient_descent(lr=0.02))
 
     # Check predictions after an epoch of training on all examples
     output = dense_nn.forward(inputs, sigmoid)

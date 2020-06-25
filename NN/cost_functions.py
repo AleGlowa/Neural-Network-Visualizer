@@ -12,7 +12,7 @@ def rmse(predictions, targets):
     
     sqr_residuals = (predictions - targets)**2
     #sum_residuals = np.sum(sqr_residuals, axis=0, dtype=T_PRECISION)
-    return np.sqrt(sqr_residuals) / 2
+    return np.expand_dims(np.sqrt(sqr_residuals) / 2, axis=0)
 
 
 # MSE - Mean Square Error
