@@ -59,7 +59,7 @@ dense_nn.step(gradient_descent(lr=0.02))
 - Numpy 1.18.1
 
 ## **Setup**
-To install all dependencies, run the command ```python pip install -r requirements.txt```
+To install all dependencies, run the command `bash pip install -r requirements.txt`
 
 ## **Features**
 Ready features:
@@ -74,7 +74,8 @@ To-do list( from the most important ):
 Project is: in progress
 
 ## **Inspiration**
-Forward propagation and backpropagation based on [](https://www.youtube.com/watch?v=x_Eamf8MHwU)
+Forward propagation and backpropagation based on [link to video](https://www.youtube.com/watch?v=x_Eamf8MHwU)
 
 ## **Contact**
 My email: alglowa1@gmail.com
+Linkedin: [Alex Głowacki](https://www.linkedin.com/in/alex-g%C5%82owacki-72941113a/)
