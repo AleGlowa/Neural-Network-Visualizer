@@ -38,8 +38,6 @@ dense_nn = NN_Dense([inputs.shape[0], 3, 2, 1], init.with_value(0.01), init.with
 ```
 
 - Define an activation function which will be applied in each hidden layer( here is used sigmoid )
-NOTE: At this point, you can only use the sigmoid because I don't have any other activation functions derivatives defined which are required in the
-backpropagation process!
 ```python
 output = dense_nn.forward(inputs[:, id_batch * BATCH_SIZE : upper_bound], sigmoid)
 ```
@@ -66,7 +64,6 @@ Ready features:
 - training simulation
 
 To-do list( from the most important ):
-- calculation of derivatives of the functions other than sigmoid
 - support for input data in csv file format
 - training visualization on the website
 
