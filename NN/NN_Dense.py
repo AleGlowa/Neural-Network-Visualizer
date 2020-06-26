@@ -71,8 +71,7 @@ class NN_Dense():
     def backward(self, loss):
         errors = [loss]
         for weight, output in zip(self.weights[-1:0:-1], self._data_for_Wgrads[-1:0:-1]):
-            # CHANGE LATER deriv_sigmoid BECAUSE IS ONLY FOR SIGMOID ACTIVATION FUNC
-            error = np.dot(np.transpose(weight), errors[-1]) * deriv_sigmoid(output)
+            error = np.dot(np.transpose(weight), errors[-1]) * derivative(self.activation, output)
             errors.append(error)
 
         # Initialize weight's grads and bias's grads with zeros
